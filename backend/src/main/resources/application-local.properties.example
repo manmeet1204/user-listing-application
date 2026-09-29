@@ -1,0 +1,3 @@
+spring.datasource.url=jdbc:mysql://localhost:3306/user_listing_db
+spring.datasource.username=root
+spring.datasource.password=your-mysql-password-here
