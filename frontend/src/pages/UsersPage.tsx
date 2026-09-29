@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { getUsers } from "../api/userApi";
+import { deleteUser, getErrorMessage, getUsers, updateUser } from "../api/userApi";
 import type { User } from "../types/user";
 import SearchBar from "../components/SearchBar";
 import UserTable from "../components/UserTable";
+import CreateUserForm from "../components/CreateUserForm";
 
 function UsersPage() {
   const [users, setUsers] = useState<User[]>([]);
@@ -23,6 +24,18 @@ function UsersPage() {
     loadUsers();
   }, []);
 
+  function handleSave(id: number, name: string, enabled: boolean) {
+    updateUser(id, { name, enabled })
+      .then(loadUsers)
+      .catch((err) => alert(getErrorMessage(err, "Could not update user.")));
+  }
+
+  function handleDelete(id: number) {
+    deleteUser(id)
+      .then(loadUsers)
+      .catch((err) => alert(getErrorMessage(err, "Could not delete user.")));
+  }
+
   const term = searchTerm.toLowerCase();
   const filteredUsers = users.filter(
     (user) =>
@@ -33,6 +46,7 @@ function UsersPage() {
   return (
     <div className="users-page">
       <h1>Users</h1>
+      <CreateUserForm onCreated={loadUsers} />
       <SearchBar value={searchTerm} onChange={setSearchTerm} />
 
       {loading && <p>Loading users...</p>}
@@ -52,7 +66,7 @@ function UsersPage() {
 
       {!loading && !error && filteredUsers.length > 0 && (
         <div className="table-scroll">
-          <UserTable users={filteredUsers} />
+          <UserTable users={filteredUsers} onSave={handleSave} onDelete={handleDelete} />
         </div>
       )}
     </div>

@@ -21,3 +21,8 @@ export async function updateUser(id: number, request: UpdateUserRequest): Promis
 export async function deleteUser(id: number): Promise<void> {
   await axios.delete(`${API_BASE_URL}/users/${id}`);
 }
+
+export function getErrorMessage(err: unknown, fallback: string): string {
+  const response = (err as { response?: { data?: { message?: string } } })?.response;
+  return response?.data?.message ?? fallback;
+}

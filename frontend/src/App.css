@@ -46,3 +46,25 @@
   padding: 1rem;
   border-radius: 4px;
 }
+
+.create-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.create-form input {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.form-error {
+  width: 100%;
+  color: #c00;
+  margin: 0.5rem 0 0;
+}
+
+.user-table button {
+  margin-right: 0.25rem;
+}

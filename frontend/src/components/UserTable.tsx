@@ -1,10 +1,13 @@
 import type { User } from "../types/user";
+import UserRow from "./UserRow";
 
 interface UserTableProps {
   users: User[];
+  onSave: (id: number, name: string, enabled: boolean) => void;
+  onDelete: (id: number) => void;
 }
 
-function UserTable({ users }: UserTableProps) {
+function UserTable({ users, onSave, onDelete }: UserTableProps) {
   return (
     <table className="user-table">
       <thead>
@@ -14,21 +17,12 @@ function UserTable({ users }: UserTableProps) {
           <th>Status</th>
           <th>Provider</th>
           <th>Created</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         {users.map((user) => (
-          <tr key={user.id}>
-            <td>{user.name}</td>
-            <td>{user.email}</td>
-            <td>
-              <span className={user.enabled ? "status-active" : "status-inactive"}>
-                {user.enabled ? "Active" : "Inactive"}
-              </span>
-            </td>
-            <td>{user.provider}</td>
-            <td>{new Date(user.createdAt).toLocaleDateString()}</td>
-          </tr>
+          <UserRow key={user.id} user={user} onSave={onSave} onDelete={onDelete} />
         ))}
       </tbody>
     </table>
